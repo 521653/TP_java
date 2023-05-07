@@ -1,0 +1,128 @@
+package Classes;
+
+public class Compte {
+    private static int num;
+    private Client proprietaire;
+    private double solde;
+    private static int cmp=0;
+
+    public Compte() {
+    }
+
+    public Compte(Client proprietaire) {
+        cmp++;
+        this.proprietaire = proprietaire;
+        solde = 0;
+        num= cmp;
+    }
+    private boolean issuffissant(double montant){
+        if (solde >= montant){
+            return true;
+        }
+        return false;
+    }
+    public void crediter(double montant){
+        solde += montant;
+    }
+    public void debiter(double montant){
+        if (issuffissant(montant))
+            solde -= montant;
+        else
+            System.out.println("votre solde est insuffisant");
+    }
+    public void virement(Compte c,double montant){
+        if (issuffissant(montant)){
+            solde -= montant;
+            c.solde += montant;
+            System.out.println("le nouveau nouveau du compte est :"+solde);
+        }
+        else
+            System.out.println("le sode du compte est insuffisant pour faire un virement.");
+    }
+    public static int Nbcompte(){
+        return cmp;
+    }
+    public void visualiser(){
+        System.out.print("le proprietaire est :");
+        proprietaire.afficher();
+        System.out.println("le montant actuel est :"+solde);
+        System.out.println("le numero du compte est :"+num);
+    }
+}
+package Classes;
+
+public class Client {
+    private int numId;
+    private String nom, prenom, tel;
+    public Client(){
+    }
+
+    public Client(int numId, String nom, String prenom, String tel) {
+        this.numId = numId;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.tel = tel;
+    }
+
+    public int getNumId() {
+        return numId;
+    }
+
+    public void setNumId(int numId) {
+        this.numId = numId;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+    public  void afficher(){
+        System.out.println("Nom :"+nom);
+        System.out.println("prenom :"+prenom);
+        System.out.println("Nimero d'Identification :"+numId);
+        System.out.println("Numero telephone :"+tel);
+    }
+}
+import Classes.Client;
+import Classes.Compte;
+
+public class Main {
+    public static void main(String[] args) {
+        Client c1 = new Client(1,"Mbaye","Mamadou","77 013 32 68");
+        Client c2 = new Client(100,"Fall","Ibou","77 123 14 15");
+        c1.afficher();
+        System.out.println("----------------------------");
+        Compte account1 = new Compte(c1);
+        account1.crediter(2000);
+        account1.visualiser();
+        System.out.println("----------------------------");
+        account1.debiter(5000);
+        account1.visualiser();
+        Compte account2 = new Compte(c2);
+        account2.crediter(15000);
+        account2.virement(account1,5000);
+        System.out.println("----------------------------");
+        account2.visualiser();
+        System.out.println("----------------------------");
+        System.out.println("le nombre de compte creer est de :"+Compte.Nbcompte());
+    }
+}
