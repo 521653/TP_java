@@ -1,0 +1,170 @@
+package Classes;
+
+public class Produit {
+    private int numRef;
+    private String nom;
+    private double prixVente;
+    private int quantite;
+
+    public Produit() {
+    }
+
+    public Produit(int numRef, String nom, double prixVente, int quantite) {
+        this.numRef = numRef;
+        this.nom = nom;
+        this.prixVente = prixVente;
+        this.quantite = quantite;
+    }
+
+    public int getNumRef() {
+        return numRef;
+    }
+
+    public void setNumRef(int numRef) {
+        this.numRef = numRef;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public double getPrixVente() {
+        return prixVente;
+    }
+
+    public void setPrixVente(double prixVente) {
+        this.prixVente = prixVente;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
+    }
+    public Produit reduir(int n){
+        if (quantite >= n)
+            return new Produit(numRef,nom,prixVente,quantite-n);
+        else
+            return new Produit(numRef,nom,prixVente,quantite);
+    }
+    public Produit augmenter(int n){
+        return new Produit(numRef,nom,prixVente,quantite+n);
+    }
+    public void afficher(){
+        System.out.println("Le numero de reference du produit est :"+numRef);
+        System.out.println("Le nom du produit est :"+nom);
+        System.out.println("Le prix de vente du produit est :"+prixVente);
+        System.out.println("Sa quantite en stock est :"+quantite);
+        System.out.println("--------------------------------");
+    }
+}
+package Classes;
+public class Stock {
+    private Produit[] tabProd;
+    private int taille;
+    private static int nbProd = 0;
+    public Stock(int taille){
+        this.taille = taille;
+        tabProd = new Produit[taille];
+    }
+
+    public Produit[] getTabProd() {
+        return tabProd;
+    }
+
+    public void setTabProd(Produit[] tabProd) {
+        this.tabProd = tabProd;
+    }
+
+    public int getTaille() {
+        return taille;
+    }
+
+    public void setTaille(int taille) {
+        this.taille = taille;
+    }
+
+    public int getNbProd() {
+        return nbProd;
+    }
+
+    public void setNbProd(int nbProd) {
+        this.nbProd = nbProd;
+    }
+
+    public void ajouter(Produit p){
+        if (nbProd < taille){
+            tabProd[nbProd] =p;
+            nbProd++;
+        }
+        else
+            System.out.println("Stock est pleint ");
+        }
+
+    public void supprimer(Produit p){
+        for (int i = 0; i < nbProd; i++) {
+            if (tabProd[i]== p) {
+                for (int j = i; j < nbProd; j++) {
+                    tabProd[j] = tabProd[j + 1];
+                }
+            break;
+            }
+        }
+    }
+    public boolean rechercheRef(Produit p){
+        for (int i = 0; i < nbProd; i++) {
+            if (tabProd[i].getNumRef()==p.getNumRef())
+                return true;
+        }
+        return false;
+    }
+    public boolean rechercheNom(Produit p){
+        for (int i = 0; i < nbProd; i++) {
+            if (tabProd[i].getNom()==p.getNom())
+                return true;
+        }
+        return false;
+    }
+    public void afficherStock(){
+        for (int i = 0; i < nbProd; i++) {
+            tabProd[i].afficher();
+        }
+        System.out.println("La teille du stock est de :"+taille);
+        System.out.println("Le nombre de produit du stock est de :"+nbProd);
+    }
+}
+import Classes.Produit;
+import Classes.Stock;
+
+public class Main {
+    public static void main(String[] args) {
+        Produit p1 = new Produit(12,"style",1500,12);
+        Produit p2 = new Produit(12,"azoor",2000,6);
+        Produit p3 = new Produit(16,"champagne",15000,10);
+        Produit p4 = new Produit(14,"wishky",20000,8);
+        p1.afficher();
+        p1 = p1.reduir(10);
+        p1.afficher();
+        Stock stock = new Stock(5);
+        stock.ajouter(p1);
+        stock.ajouter(p2);
+        stock.ajouter(p3);
+        stock.afficherStock();
+        //stock.supprimer(p2);
+        System.out.println("--------------------------------");
+        if (stock.rechercheNom(p4))
+            System.out.println("le produit existe ");
+        else
+            System.out.println("le produit n'existe pas ");
+        if (stock.rechercheRef(p3))
+            System.out.println("le produit existe ");
+        else
+            System.out.println("le produit n'existe pas ");
+    }
+}
