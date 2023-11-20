@@ -16,8 +16,8 @@ public class Achat {
         return ((numAchat == a.numAchat)&&(p.equals(a.p)));
     }
     public String toString(){
-        return "designation du produit : "+p.getDes()+
-                "\t quantite : "+qt+
-                "\t prix total : "+montantAchat();
+        return "\ndesignation du produit : "+p.getDes()+
+                "\nquantite : "+qt+
+                "\nprix total : "+montantAchat();
     }
 }

@@ -45,6 +45,6 @@ public class Facture {
         return s;
     }
     public String toString(){
-    return "numero : "+numFact+", liste de achats : "+listeAchat+", montant total de la facture : "+montantFacture();
+    return "numero : "+numFact+"\nliste de achats : "+listeAchat.toString()+"\nmontant total de la facture : "+montantFacture();
     }
 }
